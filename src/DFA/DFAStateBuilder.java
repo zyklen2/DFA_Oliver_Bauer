@@ -21,9 +21,9 @@ public class DFAStateBuilder {
             alphabet.add(entry.symbol);
         }
         int unmarkedStates=0;
-        int fistPos=1;
+        int fistPos=1;//1 ist das erste hinzugefügt Element von FollowPos und Somit FirstPos
         Set<Integer> startList = new HashSet<>(followPosTableEntries.get(fistPos).followpos);
-        dStates.add(getDFAState(isAcceptingState(new ArrayList<>(Collections.singletonList(followPosTableEntries.get(fistPos).symbol))),startList));
+        dStates.add(getDFAState(new ArrayList<>(Collections.singletonList(followPosTableEntries.get(fistPos).symbol)),startList));
         unmarkedStates++;
         unmarkedStatePos.add(dStates.size()-1);
         while(unmarkedStates!=0){
@@ -53,7 +53,7 @@ public class DFAStateBuilder {
                     }
                 }
                 if(!exists){//nicht in dStates also füge U zu dStates hinzu
-                    theState=getDFAState(isAcceptingState(u),compareFollowPos);
+                    theState=getDFAState(u,compareFollowPos);
                     dStates.add(theState);
                     unmarkedStates++;
                     unmarkedStatePos.add(dStates.size()-1);
@@ -65,7 +65,7 @@ public class DFAStateBuilder {
         return stateTransitionTable;
     }
 
-    private boolean isAcceptingState(ArrayList<String> symbols){
+    private DFAState getDFAState(ArrayList<String> symbols,Set<Integer> pos){
         boolean isAcceptingState = false;
         for(String symbol: symbols){
             if(symbol.equals("#")){
@@ -73,11 +73,7 @@ public class DFAStateBuilder {
                 break;
             }
         }
-        return isAcceptingState;
-    }
-
-    private DFAState getDFAState(boolean isAccepting,Set<Integer> pos){
-        return new DFAState(index++,isAccepting,pos);
+        return new DFAState(index++,isAcceptingState,pos);
     }
 
 }
