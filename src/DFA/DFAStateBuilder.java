@@ -6,13 +6,11 @@ import FPTable.*;
 import java.util.*;
 
 public class DFAStateBuilder {
-    private SortedMap<Integer, FollowPosTableEntry> followPosTableEntries= new TreeMap<>();
     private int index;
     public DFAStateBuilder(){
     }
 
     public SortedMap<DFAState, Map<Character, DFAState>> createDFAStateMap(SortedMap<Integer, FollowPosTableEntry> followPosTableEntries){
-        this.followPosTableEntries=followPosTableEntries;
         ArrayList<DFAState> dStates = new ArrayList<>();
         SortedMap<DFAState, Map<Character, DFAState>> stateTransitionTable = new TreeMap<>();
         ArrayList<Integer> unmarkedStatePos=new ArrayList<>();
